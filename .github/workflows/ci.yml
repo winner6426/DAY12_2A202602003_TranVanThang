@@ -63,11 +63,12 @@ jobs:
         run: npm install --global @railway/cli
 
       - name: Deploy verified source
-        run: railway up --service capable-imagination --message "GitHub Actions ${GITHUB_SHA}"
+        run: railway up --service capable-imagination --detach --message "GitHub Actions ${GITHUB_SHA}"
 
       - name: Smoke test deployed service
         shell: bash
         run: |
+          sleep 30
           for attempt in {1..12}; do
             if curl --fail --silent --show-error "$PUBLIC_URL/healthz"; then
               exit 0
